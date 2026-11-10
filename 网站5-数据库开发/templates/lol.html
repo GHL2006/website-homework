@@ -1,0 +1,132 @@
+$def with (user, rows, total, keyword, price, job, job_options, error)
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>棋子属性查询 | 英雄联盟数据库实验室</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/site.css">
+</head>
+<body>
+<nav class="navbar site-nav">
+  <div class="container">
+    <div class="navbar-header"><a class="navbar-brand" href="/index.html">LOL 数据库实验室</a></div>
+    <ul class="nav navbar-nav">
+      <li><a href="/index.html">主页</a></li>
+      <li class="active"><a href="/lol.html">棋子查询</a></li>
+      <li><a href="/dict.html">字典查询</a></li>
+      <li><a href="/chart.html">数据可视化</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#">当前用户：$user['display_name']</a></li>
+      <li><a href="/logout.html">退出登录</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container page-main">
+  <h2 class="page-title">英雄联盟棋子属性查询</h2>
+  <p class="page-sub">数据表：web.lol_champion（86 条）· 支持名称、职业、种族、卡费组合查询</p>
+
+  <div class="panel panel-default search-panel">
+    <div class="panel-body">
+      <form class="form-inline" method="get" action="/lol.html">
+        <div class="form-group">
+          <label for="q">关键词：</label>
+          <input class="form-control" id="q" name="q" value="$keyword" placeholder="名称 / 职业 / 种族 / 称号" style="width:220px;">
+        </div>
+        <div class="form-group" style="margin-left:12px;">
+          <label for="price">卡费：</label>
+          <select class="form-control" id="price" name="price">
+            $if price == 'all':
+              <option value="all" selected>全部卡费</option>
+            $else:
+              <option value="all">全部卡费</option>
+            $for value, label in [('0','0 费'),('1','1 费'),('2','2 费'),('3','3 费'),('4','4 费'),('5','5 费'),('6','6 费'),('7','7 费'),('8','8 费')]:
+              $if price == value:
+                <option value="$value" selected>$label</option>
+              $else:
+                <option value="$value">$label</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-left:12px;">
+          <label for="job">职业：</label>
+          <select class="form-control" id="job" name="job">
+            $if job == 'all':
+              <option value="all" selected>全部职业</option>
+            $else:
+              <option value="all">全部职业</option>
+            $for item in job_options:
+              $if job == item:
+                <option value="$item" selected>$item</option>
+              $else:
+                <option value="$item">$item</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" type="submit" style="margin-left:12px;">查 询</button>
+        <a class="btn btn-default" href="/lol.html" style="margin-left:6px;">重置</a>
+      </form>
+      <div class="quick-row">
+        <span class="quick-label">快速查询：</span>
+        <a class="quick-link" href="/lol.html?q=龙神">龙神</a>
+        <a class="quick-link" href="/lol.html?q=法师">法师</a>
+        <a class="quick-link" href="/lol.html?q=玉龙">玉龙</a>
+        <a class="quick-link" href="/lol.html?q=怒翼龙">怒翼龙</a>
+        <a class="quick-link" href="/lol.html?price=5">5 费棋子</a>
+      </div>
+    </div>
+  </div>
+
+  $if error:
+    <div class="alert alert-warning">$error</div>
+
+  <div class="result-head">
+    <span>查询结果</span>
+    <em>关键词：“$keyword”，卡费：$price，共找到 <strong>$total</strong> 条记录（最多显示 60 条）</em>
+  </div>
+
+  $if len(rows) > 0:
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped result-table">
+        <thead>
+          <tr>
+            <th>头像</th><th>名称</th><th>称号</th><th>卡费</th><th>生命值</th>
+            <th>攻击</th><th>护甲</th><th>魔抗</th><th>职业</th><th>种族</th><th>技能</th>
+          </tr>
+        </thead>
+        <tbody>
+          $for row in rows:
+            <tr>
+              <td class="thumb-cell">
+                $if row['image_file']:
+                  <img class="champ-img" src="/static/lol/$row['image_file']" alt="$row['name']">
+                $else:
+                  <span class="no-img">无图</span>
+              </td>
+              <td class="champ-name">$row['name']</td>
+              <td>$row['title']</td>
+              <td><span class="price-badge">$row['price'] 费</span></td>
+              <td class="num-strong">$row['life']</td>
+              <td>$row['attack']</td>
+              <td>$row['armor']</td>
+              <td>$row['magic']</td>
+              <td>$row['jobs']</td>
+              <td>$row['races']</td>
+              <td class="skill-cell" title="$row['skill_intro']">$row['skill_name']</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  $else:
+    <div class="empty-box">没有找到符合条件的棋子，请更换关键词或筛选条件。</div>
+
+  <footer class="site-footer">网站设计与开发实验 · 网站5 数据库开发 · Web.py + PyMySQL + MySQL</footer>
+</div>
+
+<script src="/static/jquery.min.js"></script>
+<script src="/static/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+/* 网站5：数据库开发 —— 自定义样式（Bootstrap 3.3.7 之上） */
+body {
+  background: #f2f4f8;
+  color: #2c3440;
+  font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+a { color: #337ab7; }
+a:hover, a:focus { color: #23527c; text-decoration: none; }
+
+.site-nav.navbar {
+  margin-bottom: 0;
+  border: 0;
+  border-radius: 0;
+  background: #1f2430;
+  min-height: 52px;
+}
+
+.site-nav .navbar-brand {
+  color: #c8aa6e;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.site-nav .navbar-brand:hover { color: #e5cf9b; }
+
+.site-nav .navbar-nav > li > a { color: #cfd6e0; }
+
+.site-nav .navbar-nav > li > a:hover,
+.site-nav .navbar-nav > li.active > a,
+.site-nav .navbar-nav > li.active > a:hover {
+  color: #c8aa6e;
+  background: transparent;
+}
+
+.page-main { padding-top: 26px; padding-bottom: 40px; }
+
+.page-title {
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #1f2430;
+}
+
+.page-sub { margin-bottom: 20px; color: #7b8798; }
+
+.hero {
+  margin-bottom: 24px;
+  padding: 34px 38px;
+  border-radius: 6px;
+  background: linear-gradient(120deg, #232a3a 0%, #3a2f22 100%);
+  color: #ffffff;
+}
+
+.hero-kicker {
+  margin-bottom: 8px;
+  color: #c8aa6e;
+  font-size: 12px;
+  letter-spacing: 3px;
+}
+
+.hero h1 { margin: 0 0 10px; font-size: 30px; font-weight: bold; }
+.hero p { margin: 0; color: #d5dbe5; font-size: 15px; }
+
+.stat-row { margin-bottom: 20px; }
+
+.stat-card {
+  margin-bottom: 18px;
+  padding: 18px 20px;
+  border: 1px solid #e3e8ef;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+.stat-card span { display: block; color: #8794a6; font-size: 13px; }
+.stat-card strong { display: block; margin: 4px 0; color: #1f2430; font-size: 30px; line-height: 1.2; }
+.stat-card em { color: #a6b1c1; font-size: 12px; font-style: normal; }
+
+.feature-row .feature-card {
+  margin-bottom: 20px;
+  padding: 22px;
+  min-height: 230px;
+  border: 1px solid #e3e8ef;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+.feature-icon {
+  width: 42px;
+  height: 42px;
+  margin-bottom: 12px;
+  border-radius: 50%;
+  background: #1f2430;
+  color: #c8aa6e;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+  line-height: 42px;
+}
+
+.feature-card h3 { margin-top: 0; font-size: 18px; color: #1f2430; }
+.feature-card p { min-height: 84px; color: #7b8798; }
+
+.search-panel { border-color: #e3e8ef; }
+
+.quick-row { margin-top: 14px; padding-top: 12px; border-top: 1px dashed #e3e8ef; }
+.quick-label { color: #8794a6; margin-right: 8px; }
+
+.quick-link {
+  display: inline-block;
+  margin: 0 8px 6px 0;
+  padding: 2px 12px;
+  border: 1px solid #d8dee8;
+  border-radius: 14px;
+  color: #4a5666;
+  font-size: 13px;
+}
+
+.quick-link:hover { border-color: #c8aa6e; color: #8a6d2f; }
+
+.result-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 22px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #1f2430;
+}
+
+.result-head span { font-size: 18px; font-weight: bold; color: #1f2430; }
+.result-head em { color: #7b8798; font-style: normal; font-size: 13px; }
+.result-head strong { color: #c8aa6e; font-size: 16px; }
+
+.result-table { background: #ffffff; }
+.result-table > thead > tr > th { background: #1f2430; color: #e9edf4; border-color: #1f2430; text-align: center; font-weight: normal; }
+.result-table > tbody > tr > td { border-color: #e3e8ef; text-align: center; vertical-align: middle; }
+
+.thumb-cell { width: 76px; }
+.champ-img { width: 52px; height: 52px; border-radius: 6px; border: 1px solid #d8dee8; }
+.no-img { display: inline-block; width: 52px; height: 52px; border-radius: 6px; background: #eef1f5; color: #a6b1c1; font-size: 11px; line-height: 52px; }
+
+.champ-name { font-weight: bold; color: #1f2430; }
+.price-badge { display: inline-block; padding: 1px 9px; border-radius: 10px; background: #f3ead7; color: #8a6d2f; font-size: 12px; }
+.num-strong { color: #b8860b; font-weight: bold; }
+.skill-cell { max-width: 150px; color: #4a5666; cursor: help; }
+
+.empty-box {
+  padding: 36px 16px;
+  border: 1px dashed #d8dee8;
+  border-radius: 6px;
+  background: #fafbfd;
+  color: #a6b1c1;
+  text-align: center;
+}
+
+.record-table { margin-bottom: 0; font-size: 13px; }
+.result-note { color: #7b8798; }
+.word-cell { font-weight: bold; color: #1f2430; }
+.trans-cell { text-align: left !important; }
+
+.chart-tip { margin-left: 10px; color: #a6b1c1; font-size: 12px; }
+.sql-box { background: #f7f8fa; border: 1px solid #e3e8ef; border-radius: 4px; color: #4a5666; font-size: 13px; }
+
+.db-panel { margin-top: 10px; }
+.db-line { margin-bottom: 6px; color: #7b8798; }
+
+.site-footer {
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid #e3e8ef;
+  color: #a6b1c1;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* 登录页 */
+.login-body {
+  background: radial-gradient(circle at 30% 20%, #2b3346 0%, #151922 60%);
+  min-height: 100vh;
+}
+
+.login-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.login-card {
+  width: 420px;
+  max-width: 100%;
+  padding: 32px 34px 26px;
+  border: 1px solid rgba(200, 170, 110, 0.35);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.login-brand { margin-bottom: 12px; color: #c8aa6e; font-size: 12px; letter-spacing: 3px; }
+.login-card h3 { margin: 0 0 6px; color: #1f2430; font-size: 22px; font-weight: bold; }
+.login-sub { margin-bottom: 20px; color: #8794a6; font-size: 13px; }
+.btn-login { padding: 9px 0; font-size: 15px; }
+.login-tip { margin: 18px 0 0; color: #a6b1c1; font-size: 12px; text-align: center; }
+
+@media (max-width: 767px) {
+  .hero { padding: 24px; }
+  .hero h1 { font-size: 22px; }
+  .result-head { display: block; }
+  .result-head em { display: block; margin-top: 4px; }
+}

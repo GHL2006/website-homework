@@ -1,0 +1,23 @@
+# Python 缓存（不该上传）
+__pycache__/
+*.py[cod]
+*.pyo
+
+# 本地依赖（用 pip install -r requirements.txt 代替，不要上传 .deps）
+.deps/
+.venv/
+venv/
+
+# 本地临时文件
+.tmp/
+*.log
+
+# 本地数据库密码等私有配置（如有需要可以单独建 config_local.py）
+config_local.py
+.env
+
+# 编辑器 / 系统文件
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

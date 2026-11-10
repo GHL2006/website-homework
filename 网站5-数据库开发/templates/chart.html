@@ -1,0 +1,137 @@
+$def with (user, price_options)
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>数据可视化 | 英雄联盟数据库实验室</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/site.css">
+</head>
+<body>
+<nav class="navbar site-nav">
+  <div class="container">
+    <div class="navbar-header"><a class="navbar-brand" href="/index.html">LOL 数据库实验室</a></div>
+    <ul class="nav navbar-nav">
+      <li><a href="/index.html">主页</a></li>
+      <li><a href="/lol.html">棋子查询</a></li>
+      <li><a href="/dict.html">字典查询</a></li>
+      <li class="active"><a href="/chart.html">数据可视化</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#">当前用户：$user['display_name']</a></li>
+      <li><a href="/logout.html">退出登录</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container page-main">
+  <h2 class="page-title">LOL 数据可视化</h2>
+  <p class="page-sub">柱状图展示相同卡费棋子的生命值 · 数据接口：/api/chart?price=卡费</p>
+
+  <div class="panel panel-default search-panel">
+    <div class="panel-body">
+      <form class="form-inline" onsubmit="return false;">
+        <div class="form-group">
+          <label for="priceSelect">选择卡费：</label>
+          <select class="form-control" id="priceSelect">
+            $for value, label in price_options:
+              $if value == '1':
+                <option value="$value" selected>$label</option>
+              $else:
+                <option value="$value">$label</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="refreshBtn" type="button" style="margin-left:12px;">刷新图表</button>
+        <span class="chart-tip">修改卡费后图表会自动更新</span>
+      </form>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">相同卡费棋子的生命值（ECharts 柱状图）</div>
+    <div class="panel-body">
+      <div id="chartBox" style="width:100%;height:470px;"></div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">说明</div>
+    <div class="panel-body">
+      <p class="db-line">后端：Web.py 路由 /api/chart 接收 price 参数，执行 SQL：</p>
+      <pre class="sql-box">SELECT id, name, life, price FROM lol_champion WHERE price=%s ORDER BY life DESC, id</pre>
+      <p class="db-line">前端：ECharts 通过 fetch() 读取 JSON 数据，横轴为棋子名称，纵轴为生命值。</p>
+    </div>
+  </div>
+
+  <footer class="site-footer">网站设计与开发实验 · 网站5 数据库开发 · Web.py + PyMySQL + MySQL + ECharts</footer>
+</div>
+
+<script src="/static/jquery.min.js"></script>
+<script src="/static/bootstrap.min.js"></script>
+<script src="/static/echarts.js"></script>
+<script>
+  var chart = echarts.init(document.getElementById('chartBox'));
+  var priceSelect = document.getElementById('priceSelect');
+
+  function showEmpty(message) {
+    chart.clear();
+    chart.setOption({
+      title: { text: message, left: 'center', top: 'middle', textStyle: { fontSize: 16, color: '#888' } }
+    });
+  }
+
+  function renderChart(data) {
+    if (!data.names || data.names.length === 0) {
+      showEmpty('该卡费没有棋子数据');
+      return;
+    }
+    chart.setOption({
+      color: ['#c8aa6e'],
+      title: {
+        text: data.price + ' 费棋子生命值（共 ' + data.count + ' 个，平均 ' + data.average + '）',
+        left: 'center',
+        textStyle: { fontSize: 16, color: '#333' }
+      },
+      tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+      grid: { left: 70, right: 30, top: 60, bottom: 100 },
+      xAxis: {
+        type: 'category',
+        data: data.names,
+        axisLabel: { rotate: 35, fontSize: 11, color: '#666' },
+        axisLine: { lineStyle: { color: '#cccccc' } }
+      },
+      yAxis: {
+        type: 'value',
+        name: '生命值',
+        nameTextStyle: { color: '#888' },
+        axisLabel: { color: '#888' },
+        splitLine: { lineStyle: { color: '#eeeeee' } }
+      },
+      series: [{
+        type: 'bar',
+        data: data.lives,
+        barMaxWidth: 36,
+        itemStyle: { borderRadius: [3, 3, 0, 0] },
+        label: { show: true, position: 'top', fontSize: 10, color: '#666' }
+      }]
+    }, true);
+  }
+
+  function loadChart(price) {
+    fetch('/api/chart?price=' + encodeURIComponent(price))
+      .then(function (response) { return response.json(); })
+      .then(function (data) { renderChart(data); })
+      .catch(function () { showEmpty('图表数据加载失败，请检查登录状态'); });
+  }
+
+  priceSelect.onchange = function () { loadChart(this.value); };
+  document.getElementById('refreshBtn').onclick = function () { loadChart(priceSelect.value); };
+  window.addEventListener('resize', function () { chart.resize(); });
+
+  loadChart(priceSelect.value);
+</script>
+</body>
+</html>

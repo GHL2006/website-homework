@@ -1,0 +1,113 @@
+$def with (user, rows, logs, keyword, searched, error)
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>字典查询 | 英雄联盟数据库实验室</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/site.css">
+</head>
+<body>
+<nav class="navbar site-nav">
+  <div class="container">
+    <div class="navbar-header"><a class="navbar-brand" href="/index.html">LOL 数据库实验室</a></div>
+    <ul class="nav navbar-nav">
+      <li><a href="/index.html">主页</a></li>
+      <li><a href="/lol.html">棋子查询</a></li>
+      <li class="active"><a href="/dict.html">字典查询</a></li>
+      <li><a href="/chart.html">数据可视化</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#">当前用户：$user['display_name']</a></li>
+      <li><a href="/logout.html">退出登录</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container page-main">
+  <h2 class="page-title">字典查询与查询记录</h2>
+  <p class="page-sub">数据表：web.dict_word（66 条）· 每次查询写入 web.dict_query_log</p>
+
+  <div class="panel panel-default search-panel">
+    <div class="panel-body">
+      <form class="form-inline" method="get" action="/dict.html">
+        <div class="form-group">
+          <label for="q">查询内容：</label>
+          <input class="form-control" id="q" name="q" value="$keyword" placeholder="例如：Python、数据库、爱" style="width:280px;">
+        </div>
+        <button class="btn btn-primary" type="submit" style="margin-left:12px;">查 询</button>
+        <a class="btn btn-default" href="/dict.html" style="margin-left:6px;">清空</a>
+      </form>
+      <div class="quick-row">
+        <span class="quick-label">快速查询：</span>
+        <a class="quick-link" href="/dict.html?q=Python">Python</a>
+        <a class="quick-link" href="/dict.html?q=数据库">数据库</a>
+        <a class="quick-link" href="/dict.html?q=session">session</a>
+        <a class="quick-link" href="/dict.html?q=可视化">可视化</a>
+      </div>
+    </div>
+  </div>
+
+  $if error:
+    <div class="alert alert-warning">$error</div>
+
+  <div class="row">
+    <div class="col-md-7">
+      <div class="panel panel-default">
+        <div class="panel-heading">查询结果</div>
+        <div class="panel-body">
+          $if searched:
+            <p class="result-note">关键词：“<strong>$keyword</strong>”，共找到 $len(rows) 条结果，已写入查询记录。</p>
+            $if len(rows) > 0:
+              <table class="table table-bordered table-striped result-table">
+                <thead><tr><th>单词</th><th>音标</th><th>释义</th></tr></thead>
+                <tbody>
+                  $for row in rows:
+                    <tr>
+                      <td class="word-cell">$row['word']</td>
+                      <td>[$row['phonetic']]</td>
+                      <td class="trans-cell">$row['translation']</td>
+                    </tr>
+                </tbody>
+              </table>
+            $else:
+              <div class="empty-box">字典里没有找到“$keyword”，可以换一个单词试试。</div>
+          $else:
+            <div class="empty-box">输入英文单词或中文释义进行查询，查询结果会显示在这里。</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="panel panel-default">
+        <div class="panel-heading">最近查询记录（dict_query_log）</div>
+        <div class="panel-body">
+          $if len(logs) > 0:
+            <table class="table table-condensed table-striped record-table">
+              <thead><tr><th>用户</th><th>关键词</th><th>结果数</th><th>查询时间</th></tr></thead>
+              <tbody>
+                $for log in logs:
+                  <tr>
+                    <td>$log['username']</td>
+                    <td>$log['keyword']</td>
+                    <td>$log['result_count']</td>
+                    <td>$log['created_at']</td>
+                  </tr>
+              </tbody>
+            </table>
+          $else:
+            <div class="empty-box">还没有查询记录，查询一次字典就会产生记录。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">网站设计与开发实验 · 网站5 数据库开发 · Web.py + PyMySQL + MySQL</footer>
+</div>
+
+<script src="/static/jquery.min.js"></script>
+<script src="/static/bootstrap.min.js"></script>
+</body>
+</html>

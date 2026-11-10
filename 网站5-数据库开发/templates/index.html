@@ -1,0 +1,107 @@
+$def with (user, stats, error)
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>主页 | 英雄联盟数据库实验室</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/site.css">
+</head>
+<body>
+<nav class="navbar site-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/index.html">LOL 数据库实验室</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/index.html">主页</a></li>
+      <li><a href="/lol.html">棋子查询</a></li>
+      <li><a href="/dict.html">字典查询</a></li>
+      <li><a href="/chart.html">数据可视化</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#">当前用户：$user['display_name']</a></li>
+      <li><a href="/logout.html">退出登录</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container page-main">
+  <section class="hero">
+    <div class="hero-kicker">WEBSITE 5 · DATABASE DEVELOPMENT</div>
+    <h1>英雄联盟棋子数据库查询系统</h1>
+    <p>基于 Web.py + MySQL 实现：登录与 session、棋子属性查询、字典查询记录、卡费-生命值可视化。</p>
+  </section>
+
+  $if error:
+    <div class="alert alert-warning">$error</div>
+
+  <div class="row stat-row">
+    <div class="col-sm-4">
+      <div class="stat-card">
+        <span>棋子数据</span>
+        <strong>$stats['champions']</strong>
+        <em>web.lol_champion</em>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="stat-card">
+        <span>字典词条</span>
+        <strong>$stats['words']</strong>
+        <em>web.dict_word</em>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="stat-card">
+        <span>查询记录</span>
+        <strong>$stats['logs']</strong>
+        <em>web.dict_query_log</em>
+      </div>
+    </div>
+  </div>
+
+  <div class="row feature-row">
+    <div class="col-md-4">
+      <div class="feature-card">
+        <div class="feature-icon">Q</div>
+        <h3>棋子属性查询</h3>
+        <p>按名称、职业、种族或卡费查询英雄联盟棋子，展示头像、生命值、攻击、护甲、技能等信息。</p>
+        <a class="btn btn-primary" href="/lol.html">进入棋子查询</a>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-card">
+        <div class="feature-icon">D</div>
+        <h3>字典查询记录</h3>
+        <p>输入英文单词或中文释义进行字典查询，每次查询都会写入 dict_query_log 表，可查看最近的查询记录。</p>
+        <a class="btn btn-primary" href="/dict.html">进入字典查询</a>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-card">
+        <div class="feature-icon">C</div>
+        <h3>LOL 数据可视化</h3>
+        <p>选择卡费后，用 ECharts 柱状图展示相同卡费棋子的生命值，数据通过 JSON 接口从数据库读取。</p>
+        <a class="btn btn-primary" href="/chart.html">进入数据可视化</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default db-panel">
+    <div class="panel-heading">数据库连接信息</div>
+    <div class="panel-body">
+      <p class="db-line">数据来源：MySQL 8.0 · 数据库 web · 表：lol_champion / dict_word / dict_query_log / sys_user</p>
+      <p class="db-line">登录状态由 Web.py 的 session 保存，退出后需要重新登录。</p>
+    </div>
+  </div>
+
+  <footer class="site-footer">网站设计与开发实验 · 网站5 数据库开发 · Web.py + PyMySQL + MySQL + ECharts</footer>
+</div>
+
+<script src="/static/jquery.min.js"></script>
+<script src="/static/bootstrap.min.js"></script>
+</body>
+</html>

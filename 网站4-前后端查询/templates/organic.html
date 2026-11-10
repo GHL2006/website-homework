@@ -1,0 +1,104 @@
+$def with (rows, total_matches, keyword, field, total_records, db_ok, db_message, field_options)
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>有机物查询 | 网站设计与开发实验</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/site.css">
+</head>
+<body>
+<div class="site-frame">
+  <main class="page-content">
+    <ul class="nav nav-tabs main-nav">
+      <li><a href="/index.html">主页</a></li>
+      <li><a href="/calendar.html">日历</a></li>
+      <li class="active"><a href="/organic.html">有机物查询</a></li>
+      <li><a href="/resume.html">简历</a></li>
+      <li><a href="/bootstrap.html">Bootstrap 样例</a></li>
+    </ul>
+
+    <h2 class="page-title">3、有机物查询</h2>
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="query-menu">
+          <h3>欢迎进入有机物查询系统</h3>
+          <p class="text-muted">输入名称、分子式或 CAS 号进行查询。</p>
+          <form method="get" action="/organic.html">
+            <div class="form-group">
+              <label for="keywordInput">查询内容</label>
+              <input class="form-control" id="keywordInput" name="q" value="${keyword}" placeholder="例如：甲醛、CH2O">
+            </div>
+            <div class="form-group">
+              <label for="fieldInput">查询字段</label>
+              <select class="form-control" id="fieldInput" name="field">
+                $for value, label in field_options:
+                  $if value == field:
+                    <option value="${value}" selected>${label}</option>
+                  $else:
+                    <option value="${value}">${label}</option>
+              </select>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit">查询</button>
+          </form>
+
+          <hr>
+          <p class="demo-label">快速查询</p>
+          <a class="quick-link btn-block" href="/organic.html?q=甲醛&amp;field=name">甲醛</a>
+          <a class="quick-link btn-block" href="/organic.html?q=乙醇&amp;field=name">乙醇</a>
+          <a class="quick-link btn-block" href="/organic.html?q=苯&amp;field=name">苯</a>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="result-panel">
+          <h3>查询结果</h3>
+          <p class="result-summary">关键词：“<span>${keyword}</span>”，共找到 <strong>${total_matches}</strong> 条记录，最多显示 30 条。</p>
+          <p class="db-source text-muted">数据来源：MySQL 数据库 web.organic 表，共 ${total_records} 条记录。</p>
+
+          $if db_ok:
+            $if rows:
+              <div class="table-responsive">
+                <table class="table table-bordered table-striped result-table">
+                  <thead>
+                    <tr>
+                      <th>序号</th>
+                      <th>名称</th>
+                      <th>分子式</th>
+                      <th>CAS 号</th>
+                      <th>分子量</th>
+                      <th>沸点</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    $for row in rows:
+                      <tr>
+                        <td>${row['id']}</td>
+                        <td>${row['name']}</td>
+                        <td>${row['formula']}</td>
+                        <td>${row['cas']}</td>
+                        <td>${row['molecular_weight']}</td>
+                        <td>${row['boilling_point']}</td>
+                      </tr>
+                  </tbody>
+                </table>
+              </div>
+            $else:
+              <div class="empty-result">没有找到符合条件的记录，请更换关键词。</div>
+          $else:
+            <div class="alert alert-warning">$db_message</div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">网站设计与开发实验 · Bootstrap 3.3.7 + Web.py + MySQL</footer>
+  </main>
+</div>
+<script src="/static/jquery.min.js"></script>
+<script src="/static/bootstrap.min.js"></script>
+</body>
+</html>

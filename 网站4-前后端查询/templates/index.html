@@ -1,0 +1,99 @@
+$def with (year, month, month_name_en, weeks, total_records, db_ok, db_message)
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>主页 | 网站设计与开发实验</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/site.css">
+</head>
+<body>
+<div class="site-frame">
+  <main class="page-content">
+    <ul class="nav nav-tabs main-nav">
+      <li class="active"><a href="/index.html">主页</a></li>
+      <li><a href="/calendar.html">日历</a></li>
+      <li><a href="/organic.html">有机物查询</a></li>
+      <li><a href="/resume.html">简历</a></li>
+      <li><a href="/bootstrap.html">Bootstrap 样例</a></li>
+    </ul>
+
+    <h2 class="page-title">5、主页界面</h2>
+
+    <section class="home-intro">
+      <h2>网站设计与开发实验系统</h2>
+      <p>这是前后端连接版主页。页面由 Web.py 后端渲染，有机物数据来自 MySQL 数据库，日历由后端计算生成。</p>
+      $if db_ok:
+        <p class="db-source text-muted">数据来源：MySQL 数据库 web.organic 表，共 ${total_records} 条记录。</p>
+      $else:
+        <div class="alert alert-warning" style="margin:12px 0 0;">$db_message</div>
+    </section>
+
+    <div class="row">
+      <div class="col-md-5">
+        <div class="section-box home-calendar">
+          <h3>本月日历</h3>
+          <table class="table table-bordered calendar-table">
+            <thead>
+              <tr><th colspan="7" class="month">${month_name_en} ${year}</th></tr>
+              <tr>
+                <th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th>
+              </tr>
+            </thead>
+            <tbody>
+              $for week in weeks:
+                <tr>
+                  $for day in week:
+                    $if day == 0:
+                      <td class="noday"></td>
+                    $else:
+                      <td class="day">$day</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-7">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="feature-box">
+              <h3>日历查询</h3>
+              <p>选择年份和月份，由 Web.py 后端计算并显示对应月历。</p>
+              <a class="btn btn-primary btn-sm" href="/calendar.html">进入日历页面</a>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="feature-box">
+              <h3>有机物查询</h3>
+              <p>输入名称、分子式或 CAS 号，从 MySQL 数据库中查询有机物。</p>
+              <a class="btn btn-primary btn-sm" href="/organic.html">进入查询页面</a>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="feature-box">
+              <h3>个人简历</h3>
+              <p>使用 Bootstrap 栅格、进度条和列表展示个人信息。</p>
+              <a class="btn btn-primary btn-sm" href="/resume.html">进入简历页面</a>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="feature-box">
+              <h3>Bootstrap 样例</h3>
+              <p>查看胶囊导航、轮播、按钮和条纹表格等组件。</p>
+              <a class="btn btn-primary btn-sm" href="/bootstrap.html">查看组件示例</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">网站设计与开发实验 · Bootstrap 3.3.7 + Web.py + MySQL</footer>
+  </main>
+</div>
+<script src="/static/jquery.min.js"></script>
+<script src="/static/bootstrap.min.js"></script>
+</body>
+</html>

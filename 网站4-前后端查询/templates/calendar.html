@@ -1,0 +1,76 @@
+$def with (year, month, weeks, month_title, today_year, today_month, month_options)
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>日历查询 | 网站设计与开发实验</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/site.css">
+</head>
+<body>
+<div class="site-frame">
+  <main class="page-content">
+    <ul class="nav nav-tabs main-nav">
+      <li><a href="/index.html">主页</a></li>
+      <li class="active"><a href="/calendar.html">日历</a></li>
+      <li><a href="/organic.html">有机物查询</a></li>
+      <li><a href="/resume.html">简历</a></li>
+      <li><a href="/bootstrap.html">Bootstrap 样例</a></li>
+    </ul>
+
+    <h2 class="page-title">2、日历界面</h2>
+
+    <form class="form-inline" method="get" action="/calendar.html" style="margin-bottom:20px;">
+      <div class="form-group">
+        <label for="yearInput">年份：</label>
+        <input class="form-control" style="width:110px;" type="number" id="yearInput" name="year" value="${year}" min="1900" max="2100">
+      </div>
+      <div class="form-group" style="margin-left:12px;">
+        <label for="monthInput">月份：</label>
+        <select class="form-control" id="monthInput" name="month">
+          $for value, label in month_options:
+            $if value == month:
+              <option value="${value}" selected>${label}</option>
+            $else:
+              <option value="${value}">${label}</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" type="submit" style="margin-left:10px;">查询</button>
+      <a class="btn btn-default" href="/calendar.html?year=${today_year}&amp;month=${today_month}" style="margin-left:6px;">本月</a>
+    </form>
+
+    <div class="calendar-box">
+      <table class="table table-bordered calendar-table">
+        <thead>
+          <tr><th colspan="7" class="month">$month_title</th></tr>
+          <tr>
+            <th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th>Su</th>
+          </tr>
+        </thead>
+        <tbody>
+          $for week in weeks:
+            <tr>
+              $for day in week:
+                $if day == 0:
+                  <td class="noday"></td>
+                $else:
+                  <td class="day">$day</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert alert-info" style="margin-top:20px;">
+      本页面由 Web.py 后端使用 Python 的 calendar 模块计算每月第一天和天数，再交给模板生成 HTML 表格。
+    </div>
+
+    <footer class="site-footer">网站设计与开发实验 · Bootstrap 3.3.7 + Web.py + MySQL</footer>
+  </main>
+</div>
+<script src="/static/jquery.min.js"></script>
+<script src="/static/bootstrap.min.js"></script>
+</body>
+</html>

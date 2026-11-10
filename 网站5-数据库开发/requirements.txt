@@ -1,0 +1,6 @@
+# 安装依赖：
+#   pip install -r requirements.txt
+# 或者用清华镜像：
+#   pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
+web.py>=0.61
+PyMySQL>=1.0

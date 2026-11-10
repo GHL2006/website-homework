@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# 本地依赖 / 临时文件
+.deps/
+.venv/
+venv/
+.tmp/
+*.log
+
+# 本地私密配置
+config_local.py
+.env
+
+# 编辑器 / 系统
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,39 @@
+$def with (error, username)
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>登录 | 英雄联盟数据库实验室</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/site.css">
+</head>
+<body class="login-body">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-brand">LOL DATABASE LAB</div>
+      <h3>英雄联盟棋子数据库系统</h3>
+      <p class="login-sub">网站5 · 数据库开发 · 请先登录</p>
+
+      $if error:
+        <div class="alert alert-danger">$error</div>
+
+      <form method="post" action="/login.html">
+        <div class="form-group">
+          <label for="username">用户名</label>
+          <input class="form-control" id="username" name="username" value="$username" placeholder="请输入用户名">
+        </div>
+        <div class="form-group">
+          <label for="password">密码</label>
+          <input class="form-control" id="password" name="password" type="password" placeholder="请输入密码">
+        </div>
+        <button class="btn btn-primary btn-block btn-login" type="submit">登 录</button>
+      </form>
+
+      <p class="login-tip">示例账号：admin / 123456（或 student / 123456）</p>
+    </div>
+  </div>
+</body>
+</html>

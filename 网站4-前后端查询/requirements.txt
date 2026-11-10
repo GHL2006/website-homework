@@ -1,0 +1,6 @@
+# 安装命令（清华镜像）：
+#   pip install web.py -i https://pypi.tuna.tsinghua.edu.cn/simple/
+#   pip install pymysql -i https://pypi.tuna.tsinghua.edu.cn/simple/
+# 或者直接执行：pip install -r requirements.txt
+web.py>=0.61
+PyMySQL>=1.0
